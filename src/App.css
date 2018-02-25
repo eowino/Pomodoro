@@ -85,6 +85,9 @@ body {
 }
 
 @media screen and (max-width: 730px) {
+  .container {
+    width: 80%;
+  }
   .pomodoro__input {
     font-size: 2em;
   }
