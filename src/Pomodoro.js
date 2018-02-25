@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 
 class Pomodoro extends Component {
   state = {
-    value: "",
+    value: '',
     running: false,
     interval: null,
     minutes: 0,
-    seconds: 0,
+    seconds: 0
   };
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const value = event.target.value;
 
     if (!isNaN(value)) {
@@ -23,9 +23,16 @@ class Pomodoro extends Component {
     }
   };
 
-  handleStart = () => {};
+  handleStart = () => {
+    console.log('start');
+  };
 
-  handleReset = () => {};
+  handleReset = () => {
+    clearInterval(this.state.interval);
+    this.setState(() => ({
+      value: ''
+    }));
+  };
 
   render() {
     const { running } = this.state;
@@ -45,10 +52,12 @@ class Pomodoro extends Component {
           </label>
         </div>
         <div className="pomodoro__footer">
-          <button className="btn btn--start">
-            { running ? "Pause": "Start" }
+          <button className="btn btn--start" onClick={this.handleStart}>
+            {running ? 'Pause' : 'Start'}
           </button>
-          <button className="btn btn--reset">Reset</button>
+          <button className="btn btn--reset" onClick={this.handleReset}>
+            Reset
+          </button>
         </div>
       </div>
     );
