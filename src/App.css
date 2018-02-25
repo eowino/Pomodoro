@@ -83,3 +83,18 @@ body {
 .btn--reset:focus {
   background-color: #ccc;
 }
+
+@media screen and (max-width: 730px) {
+  .pomodoro__input {
+    font-size: 2em;
+  }
+
+  .pomodoro__footer .btn {
+    display: block;
+    width: 100%;
+  }
+
+  .pomodoro__footer .btn--start {
+    margin-bottom: 20px;
+  }
+}

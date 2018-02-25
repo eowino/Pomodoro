@@ -4,7 +4,14 @@ class Pomodoro extends Component {
   state = {
     value: "",
     running: false,
+    interval: null,
+    minutes: 0,
+    seconds: 0,
   };
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
 
   handleInputChange = (event) => {
     const value = event.target.value;
@@ -15,6 +22,10 @@ class Pomodoro extends Component {
       }));
     }
   };
+
+  handleStart = () => {};
+
+  handleReset = () => {};
 
   render() {
     const { running } = this.state;
