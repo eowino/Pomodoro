@@ -1,5 +1,50 @@
 body {
+  background-color: #fafafa;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0; 
+}
+
+.container {
+  margin: 2em auto;
+  width: 50%;
+}
+
+.btn {
+  border: 0;
+  font-size: 1em;
+  padding: 12px;
+  margin-right: 1em;
+  min-width: 100px;
+}
+
+.btn--start {
+  background-color: #0099ff;
+  color: #fff;
+}
+
+.btn--start:hover,
+.btn--start:focus {
+  background-color: #0f7ae5;
+}
+
+.btn--reset {
+  background: #ddd;
+}
+
+.btn--reset:hover,
+.btn--reset:focus {
+  background-color: #ccc;
 }

@@ -1,28 +1,3 @@
-* {
-  font-family: 'Montserrat', sans-serif;
-}
-
-body {
-  font-size: 1em;
-  background-color: #fafafa;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0; 
-}
-
-.container {
-  margin: 2em auto;
-  width: 50%;
-}
-
 .pomodoro {
   box-shadow: 0 0 40px rgba(0,0,0,.1);
   padding: 20px;
@@ -47,9 +22,16 @@ body {
   transition: border-color 0.3s ease;  
 }
 
-.pomodoro__input:focus {
-  outline: 0;
+.pomodoro__text-area {
+  display: inline-block;
+  font-size: 3.5em;
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.pomodoro__input:focus + .pomodoro__text-area {
   border-bottom-color: #2abfd4;
+  color: #ccc;
 }
 
 .pomodoro__footer {
@@ -57,33 +39,18 @@ body {
   width: 100%;
 }
 
-.btn {
-  border: 0;
-  font-size: 1em;
-  padding: 12px;
-  margin-right: 1em;
-  min-width: 100px;
+.pomodoro__unit {
+  font-size: 0.5em;
+  padding-right: 0.9em;
 }
 
-.btn--start {
-  background-color: #0099ff;
-  color: #fff;
+.pomodoro__valid,
+.pomodoro__valid + .pomodoro__unit {
+  color: #2a2a2a;
 }
 
-.btn--start:hover,
-.btn--start:focus {
-  background-color: #0f7ae5;
-}
 
-.btn--reset {
-  background: #ddd;
-}
-
-.btn--reset:hover,
-.btn--reset:focus {
-  background-color: #ccc;
-}
-
+/* Media queries */
 @media screen and (max-width: 730px) {
   .container {
     width: 80%;
