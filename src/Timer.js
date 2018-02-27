@@ -45,6 +45,11 @@ export const minutesTicker = (minutes, seconds) => {
   return time;
 };
 
+export const hourTicker = (hrs, minutes, seconds) => {
+  // @Todo
+  throw new Error('Fail: Implementation is yet to be written');
+};
+
 const hasFinished = () => _seconds === 0 && _minutes === 0;
 
 const prettyTime = time => (time > 9 ? time : `0${time}`);

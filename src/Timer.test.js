@@ -1,4 +1,4 @@
-import { secondsTicker, minutesTicker } from './Timer';
+import { secondsTicker, minutesTicker, hourTicker } from './Timer';
 
 describe('Seconds lapse test', () => {
   it('should lapse seconds correctly', () => {
@@ -55,6 +55,39 @@ describe('Minutes lapse test', () => {
   describe('given 101:00', () => {
     it('should evaluate to 100:59', () => {
         expect(minutesTicker(101, 0)).toEqual({ minutes: 100, seconds: 59 });
+    });
+  });
+});
+
+describe('Hours lapse test', () => {
+  describe('given 10:00:01', () => {
+    it('should evaluate to 10:00:00', () => {
+      expect(hourTicker(10, 0, 1)).toEqual({ hours: 10, minutes: 0, seconds: 0 });
+    });
+  });
+  describe('given 10:00:09', () => {
+    it('should evaluate to 10:00:08', () => {
+      expect(hourTicker(10, 0, 9)).toEqual({ hours: 10, minutes: 0, seconds: 8});
+    });
+  });
+  describe('given 05:45:30', () => {
+    it('should evaluate to 05:45:29', () => {
+      expect(hourTicker(5, 45, 29)).toEqual({ hours: 5, minutes: 45, seconds: 28});
+    });
+  });
+  describe('given 05:45:00', () => {
+    it('should evaluate to 05:44:59', () => {
+      expect(hourTicker(5, 45, 0)).toEqual({ hours: 5, minutes: 44, seconds: 59});
+    });
+  });
+  describe('given 05:00:00', () => {
+    it('should evaluate to 04:59:59', () => {
+      expect(hourTicker(5, 0, 0)).toEqual({ hours: 4, minutes: 59, seconds: 59});
+    });
+  });
+  describe('given 00:00:01', () => {
+    it('should evaluate to 0:00:00', () => {
+      expect(hourTicker(0, 0, 1)).toEqual({ hours: 0, minutes: 0, seconds: 0});
     });
   });
 });
