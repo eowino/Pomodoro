@@ -24,7 +24,10 @@ export const minutesTicker = (minutes, seconds) => {
   let nextSecond = secondsTicker(seconds);
 
   if (minutes === 0 && seconds === 0) {
-    time = 0;
+    time = {
+      minutes: 0,
+      seconds: 0
+    };
   } else if (minutes === 0 && seconds > 0 ) {
     time = {
       minutes,
@@ -45,9 +48,30 @@ export const minutesTicker = (minutes, seconds) => {
   return time;
 };
 
-export const hourTicker = (hrs, minutes, seconds) => {
-  // @Todo
-  throw new Error('Fail: Implementation is yet to be written');
+export const hourTicker = (hrs, mins, sec) => {
+  let time;
+  let { minutes, seconds } = minutesTicker(mins, sec);
+  if (hrs === 0 && mins === 0 && sec === 0) {
+    time = {
+      minutes,
+      seconds,
+      hours: 0
+    }
+  } else if (hrs > 0 && mins === 0 && sec === 0) {
+    time = {
+      hours: hrs - 1,
+      minutes: 59,
+      seconds: 59
+    }
+  } else {
+    time = {
+      hours: hrs,
+      minutes,
+      seconds
+    }
+  }
+
+  return time;
 };
 
 const hasFinished = () => _seconds === 0 && _minutes === 0;
