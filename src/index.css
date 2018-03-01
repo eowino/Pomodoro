@@ -23,11 +23,22 @@ body {
 }
 
 .btn {
+  cursor: pointer;
   border: 0;
   font-size: 1em;
   padding: 12px;
   margin-right: 1em;
   min-width: 100px;
+}
+
+.btn:disabled {
+  cursor: default;
+  opacity: .5;
+}
+
+.btn:disabled:focus,
+.btn:disabled:hover {
+  background-color: #0099ff;
 }
 
 .btn--start {

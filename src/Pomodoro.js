@@ -46,6 +46,8 @@ class Pomodoro extends Component {
     }));
   };
 
+  noVal = () => this.state.value.length === 0;
+
   getVal = (arr) => (index) => arr[index] || 0;
   
   render() {
@@ -80,7 +82,7 @@ class Pomodoro extends Component {
           </label>
         </div>
         <div className="pomodoro__footer">
-          <button className="btn btn--start" onClick={this.handleStart}>
+          <button className="btn btn--start" onClick={this.handleStart} disabled={this.noVal()}>
             {running ? 'Pause' : 'Start'}
           </button>
           <button className="btn btn--reset" onClick={this.handleReset}>
