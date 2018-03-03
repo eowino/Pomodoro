@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { hourTicker } from './Timer'
+import { mapInputToTime, mapTimeToInput, hourTicker } from './Timer'
 class Pomodoro extends Component {
   state = {
     value: '',
@@ -9,7 +9,11 @@ class Pomodoro extends Component {
   };
 
   componentWillUnmount() {
-    clearInterval(this.state.interval);
+    this.clearInterval();
+  }
+
+  clearInterval() {
+    clearInterval(this.interval);
   }
 
   isNotFull() {
@@ -36,20 +40,49 @@ class Pomodoro extends Component {
     }
   };
 
-  handleStart = () => {
-    console.log('start');
+  handleStartPause = () => {
+    const { running } = this.state;
+
+    this.setState(() => {
+      if (running) {
+        this.clearInterval();
+      } else {
+        this.interval = setInterval(() => {
+          const nextValue = mapTimeToInput(
+            hourTicker(
+              mapInputToTime(this.state.value)
+            )
+          );
+          
+          this.setState(() => ({
+            value: nextValue
+          }), () => {
+            if (this.state.value === '0') {
+              this.handleReset();
+            }
+          });
+        }, 1000);
+      }
+
+      return { running: !running }
+    });
   };
 
   handleReset = () => {
-    clearInterval(this.state.interval);
+    this.clearInterval();
     this.setState(() => ({
-      value: ''
+      value: '',
+      running: false,
     }));
+  };
+
+  handlePause = () => {
+    
   };
   
   render() {
     const { running, value } = this.state;
-    const val = this.getVal(value.split(''));
+    const val = this.getVal(value.split('').reverse());
     const valid = 'pomodoro__valid';
 
     return (
@@ -61,8 +94,10 @@ class Pomodoro extends Component {
             <input
               value={this.state.value}
               onChange={this.handleInputChange}
+              onFocus={this.handleStartPause}
               type="text"
               className="pomodoro__input sr-only"
+              maxLength="6"
             />
             <span className="pomodoro__text-area">
               <span className={val(5) ? valid : null}>{val(5)}</span>
@@ -78,7 +113,7 @@ class Pomodoro extends Component {
           </label>
         </div>
         <div className="pomodoro__footer">
-          <button className="btn btn--start" onClick={this.handleStart} disabled={this.noVal()}>
+          <button className="btn btn--start" onClick={this.handleStartPause} disabled={this.noVal()}>
             {running ? 'Pause' : 'Start'}
           </button>
           <button className="btn btn--reset" onClick={this.handleReset}>
