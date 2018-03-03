@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { hourTicker } from './Timer'
 class Pomodoro extends Component {
   state = {
     value: '',
@@ -11,26 +12,26 @@ class Pomodoro extends Component {
     clearInterval(this.state.interval);
   }
 
-  isFull = () =>  this.state.value.length > 6;
+  isNotFull() {
+    return this.state.value.length !== 6;
+  }
+
+  noVal() {
+    return this.state.value.length === 0
+  };
+
+  getVal (arr) {
+    return (index) => arr[index] || 0;
+  };
 
   handleInputChange = event => {
     const value = event.target.value;
-
-    if (!isNaN(value) && !this.isFull()) {
+    const notTextInput = event.nativeEvent.inputType !== 'insertText';
+    const isNumber = !isNaN(value);
+    
+    if ((isNumber && this.isNotFull()) || notTextInput) {
       this.setState(() => ({
         value
-      }));
-    }
-  };
-
-  handleKeyDown = (event) => {
-    const BACKSPACE = 8;
-    const keycode = event.nativeEvent.keyCode;
-    const value = this.state.value;
-
-    if (this.isFull() && keycode === BACKSPACE) {
-      this.setState(() => ({
-        value: value.substring(0, value.length - 1)
       }));
     }
   };
@@ -45,10 +46,6 @@ class Pomodoro extends Component {
       value: ''
     }));
   };
-
-  noVal = () => this.state.value.length === 0;
-
-  getVal = (arr) => (index) => arr[index] || 0;
   
   render() {
     const { running, value } = this.state;
@@ -64,7 +61,6 @@ class Pomodoro extends Component {
             <input
               value={this.state.value}
               onChange={this.handleInputChange}
-              onKeyDown={this.handleKeyDown}
               type="text"
               className="pomodoro__input sr-only"
             />
