@@ -42,7 +42,7 @@ export const minutesTicker = (minutes, seconds) => {
 export const hourTicker = ({ hrs, mins, sec }) => {
   let time;
   let { minutes, seconds } = minutesTicker(mins, sec);
-  
+
   if (hrs === 0 && mins === 0 && sec === 0) {
     time = {
       minutes,
@@ -116,6 +116,42 @@ export const mapTimeToInput = ({hours, minutes, seconds} = {}) => {
   }
   
   return result;
+};
+
+const sanitiseValue = (arr, index) => {
+  if (arr[index] > 5) {
+    arr[index] = '5';
+  }
+  return arr;
+};
+
+export const sanitiseTime = (str = '') => {
+  let value = str.split('');
+ 
+  switch(value.length) {
+    case 2:
+      value = sanitiseValue(value, 0);
+      break;
+    case 3:
+      value = sanitiseValue(value, 1);
+      break;
+    case 4:
+      value = sanitiseValue(value, 0);
+      value = sanitiseValue(value, 2);
+      break;
+    case 5:
+      value = sanitiseValue(value, 1);
+      value = sanitiseValue(value, 3);
+      break;
+    case 6:
+      value = sanitiseValue(value, 2);
+      value = sanitiseValue(value, 4);
+      break;
+    default:
+      // default not required 
+  }
+
+  return value.join('');
 };
 
 export const nextTime = (str) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import nextTime from './Timer'
+import nextTime, { sanitiseTime } from './Timer'
 
 class Pomodoro extends Component {
   state = {
@@ -93,23 +93,10 @@ class Pomodoro extends Component {
 
   handleInvalidTime = () => {
     const { value } = this.state;
-    const chars = value.split('');
-    let didUpdate = false;
 
     if (this.isNumber(value)) {
-      if (chars.length === 6 && chars[2] > 5) {
-        chars[2] = 5;
-        didUpdate = true;
-      }  
-      if (chars.length >= 4 && chars[4] > 5) {
-        chars[4] = 5;
-        didUpdate = true;
-      }
-    }
-
-    if (didUpdate) {
       this.setState({
-        value: chars.join(''),
+        value: sanitiseTime(value)
       });
     }
   };

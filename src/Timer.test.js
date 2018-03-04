@@ -2,7 +2,10 @@ import {
   secondsTicker,
   minutesTicker,
   hourTicker,
-  mapInputToTime
+  sanitiseTime,
+  mapInputToTime,
+  mapTimeToInput,
+  nextTime,
 } from './Timer';
 
 describe('Seconds lapse test', () => {
@@ -206,5 +209,29 @@ describe('Hours lapse test', () => {
         })
       ).toEqual({ hours: 0, minutes: 0, seconds: 0 });
     });
+  });
+});
+
+describe('Sanitise time', () => {
+  test('99 should return 55 ', () => {
+    expect(sanitiseTime('99')).toEqual('59');
+  });
+  test('199 should return 159 ', () => {
+    expect(sanitiseTime('199')).toEqual('159');
+  });
+  test('9499 should return 5459 ', () => {
+    expect(sanitiseTime('9499')).toEqual('5459');
+  });
+  test('19499 should return 15459 ', () => {
+    expect(sanitiseTime('19499')).toEqual('15459');
+  });
+  test('919499 should return 915459 ', () => {
+    expect(sanitiseTime('919499')).toEqual('915459');
+  });
+  test('916499 should return 915459 ', () => {
+    expect(sanitiseTime('916499')).toEqual('915459');
+  });
+  test('915469 should return 915459 ', () => {
+    expect(sanitiseTime('915469')).toEqual('915459');
   });
 });
