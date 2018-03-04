@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { mapInputToTime, mapTimeToInput, hourTicker } from './Timer'
 class Pomodoro extends Component {
   state = {
-    value: '',
+    value: '500',
     running: false,
   };
   
@@ -27,12 +27,15 @@ class Pomodoro extends Component {
     return (index) => arr[index] || 0;
   };
   
+  isNumber(str) {
+    return !isNaN(str);
+  }
+  
   handleInputChange = event => {
     const value = event.target.value;
     const notTextInput = event.nativeEvent.inputType !== 'insertText';
-    const isNumber = !isNaN(value);
     
-    if ((isNumber && this.isNotFull()) || notTextInput) {
+    if ((this.isNumber(value) && this.isNotFull()) || notTextInput) {
       this.setState(() => ({
         value
       }));
@@ -40,14 +43,20 @@ class Pomodoro extends Component {
   };
   
   handleStart = () => {
-    const { running } = this.state;
+    const { running, value } = this.state;
+    
+    if (!this.isNumber(value)) {
+      this.handleReset();
+      return;
+    }
     
     this.setState(() => {
       if (running) {
         this.clearInterval();
       } else {
         this.interval = setInterval(() => {
-          const nextValue = mapTimeToInput(
+          const nextValue = 
+          mapTimeToInput(
             hourTicker(
               mapInputToTime(this.state.value)
             )
@@ -65,7 +74,7 @@ class Pomodoro extends Component {
       
       return { running: !running }
     });
-  };
+  };  
   
   handleReset = () => {
     this.clearInterval();
@@ -77,6 +86,7 @@ class Pomodoro extends Component {
   
   handlePause = () => {
     const { running } = this.state;
+
     if (running) {
       this.clearInterval();
       this.setState({
@@ -92,39 +102,39 @@ class Pomodoro extends Component {
     
     return (
       <div className="pomodoro">
-      <h1 className="pomodoro__title">Timer</h1>
-      <div className="pomodoro__body">
-      <label>
-      <span className="sr-only">How long would you like?</span>
-      <input
-      value={this.state.value}
-      onChange={this.handleInputChange}
-      onFocus={this.handlePause}
-      type="text"
-      className="pomodoro__input sr-only"
-      maxLength="6"
-      />
-      <span className="pomodoro__text-area">
-      <span className={val(5) ? valid : null}>{val(5)}</span>
-      <span className={val(4) ? valid : null}>{val(4)}</span>
-      <span className="pomodoro__unit">h</span>
-      <span className={val(3) ? valid : null}>{val(3)}</span>
-      <span className={val(2) ? valid : null}>{val(2)}</span>
-      <span className="pomodoro__unit">m</span>
-      <span className={val(1) ? valid : null}>{val(1)}</span>
-      <span className={val(0) ? valid : null}>{val(0)}</span>
-      <span className="pomodoro__unit">s</span>
-      </span>
-      </label>
-      </div>
-      <div className="pomodoro__footer">
-      <button className="btn btn--start" onClick={this.handleStart} disabled={this.noVal()}>
-      {running ? 'Pause' : 'Start'}
-      </button>
-      <button className="btn btn--reset" onClick={this.handleReset}>
-      Reset
-      </button>
-      </div>
+        <h1 className="pomodoro__title">Timer</h1>
+        <div className="pomodoro__body">
+          <label>
+            <span className="sr-only">How long would you like?</span>
+            <input
+              value={this.state.value}
+              onChange={this.handleInputChange}
+              onFocus={this.handlePause}
+              type="text"
+              className="pomodoro__input sr-only"
+              maxLength="6"
+            />
+            <span className="pomodoro__text-area">
+            <span className={val(5) ? valid : null}>{val(5)}</span>
+            <span className={val(4) ? valid : null}>{val(4)}</span>
+            <span className="pomodoro__unit">h</span>
+            <span className={val(3) ? valid : null}>{val(3)}</span>
+            <span className={val(2) ? valid : null}>{val(2)}</span>
+            <span className="pomodoro__unit">m</span>
+            <span className={val(1) ? valid : null}>{val(1)}</span>
+            <span className={val(0) ? valid : null}>{val(0)}</span>
+            <span className="pomodoro__unit">s</span>
+            </span>
+          </label>
+        </div>
+        <div className="pomodoro__footer">
+          <button className="btn btn--start" onClick={this.handleStart} disabled={this.noVal()}>
+            {running ? 'Pause' : 'Start'}
+          </button>
+          <button className="btn btn--reset" onClick={this.handleReset}>
+            Reset
+          </button>
+        </div>
       </div>
     );
   }
