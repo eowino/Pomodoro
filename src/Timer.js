@@ -1,4 +1,4 @@
-export const secondsTicker = seconds => {
+export const secondsTicker = (seconds) => {
   switch (seconds) {
     case 0:
       seconds = 59;
@@ -39,9 +39,10 @@ export const minutesTicker = (minutes, seconds) => {
   return time;
 };
 
-export const hourTicker = ({hrs, mins, sec} = {}) => {
+export const hourTicker = ({ hrs, mins, sec }) => {
   let time;
   let { minutes, seconds } = minutesTicker(mins, sec);
+  
   if (hrs === 0 && mins === 0 && sec === 0) {
     time = {
       minutes,
