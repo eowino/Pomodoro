@@ -90,6 +90,29 @@ class Pomodoro extends Component {
       });
     }
   };
+
+  handleInvalidTime = () => {
+    const { value } = this.state;
+    const chars = value.split('');
+    let didUpdate = false;
+
+    if (this.isNumber(value)) {
+      if (chars.length === 6 && chars[2] > 5) {
+        chars[2] = 5;
+        didUpdate = true;
+      }  
+      if (chars.length >= 4 && chars[4] > 5) {
+        chars[4] = 5;
+        didUpdate = true;
+      }
+    }
+
+    if (didUpdate) {
+      this.setState({
+        value: chars.join(''),
+      });
+    }
+  };
   
   render() {
     const { running, value } = this.state;
@@ -106,6 +129,7 @@ class Pomodoro extends Component {
               value={this.state.value}
               onChange={this.handleInputChange}
               onFocus={this.handlePause}
+              onBlur={this.handleInvalidTime}
               type="text"
               className="pomodoro__input sr-only"
               maxLength="6"
