@@ -1,12 +1,3 @@
-const SECONDS = 60;
-const LIMIT = 99;
-const DEFAULT_DURATION = 1;
-
-let _minutes = DEFAULT_DURATION;
-let _seconds = 0;
-let interval;
-let justStruckZero = false;
-
 export const secondsTicker = seconds => {
   switch (seconds) {
     case 0:
@@ -103,6 +94,8 @@ export const mapInputToTime = (input = '') => {
       min = `${i[2]}${i[3]}`;
       sec = `${i[4]}${i[5]}`;
       break;
+    default:
+      // default not required 
   }
 
   return {
@@ -124,31 +117,12 @@ export const mapTimeToInput = ({hours, minutes, seconds} = {}) => {
   return result;
 };
 
-const hasFinished = () => _seconds === 0 && _minutes === 0;
-
-const prettyTime = time => (time > 9 ? time : `0${time}`);
-
-const formatTime = time =>
-  `${prettyTime(time.minutes)}:${prettyTime(time.seconds)}`;
-
-const print = val => console.log(val);
-
-const setState = time => {
-  _minutes = time.minutes;
-  _seconds = time.seconds;
+export const nextTime = (str) => {
+  return mapTimeToInput(
+    hourTicker(
+      mapInputToTime(str)
+    )
+  );
 };
 
-const getState = () => ({ minutes: _minutes, seconds: _seconds });
-
-const resetTime = () => clearInterval(interval);
-
-const startTime = () => {
-  interval = setInterval(() => {
-    if (hasFinished()) {
-      clearInterval(interval);
-    } else {
-      setState(minutesTicker(_minutes, _seconds));
-      print(formatTime(getState()));
-    }
-  }, 1000);
-};
+export default nextTime;

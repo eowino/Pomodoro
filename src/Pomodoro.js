@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { mapInputToTime, mapTimeToInput, hourTicker } from './Timer'
+import nextTime from './Timer'
+
 class Pomodoro extends Component {
   state = {
     value: '500',
@@ -55,12 +56,7 @@ class Pomodoro extends Component {
         this.clearInterval();
       } else {
         this.interval = setInterval(() => {
-          const nextValue = 
-          mapTimeToInput(
-            hourTicker(
-              mapInputToTime(this.state.value)
-            )
-          );
+          const nextValue = nextTime(this.state.value);
           
           this.setState(() => ({
             value: nextValue
