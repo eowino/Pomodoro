@@ -30,6 +30,10 @@
   transition: border-color 0.3s ease;
 }
 
+.pomodoro__cursor-focus {
+  border-right: 1px solid currentColor;
+}
+
 .pomodoro__input:focus + .pomodoro__text-area {
   border-bottom-color: #2abfd4;
   color: #ccc;

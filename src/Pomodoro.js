@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import nextTime, { sanitiseTime } from './Timer'
 
+const LEFT = 37;
+const RIGHT = 39;
+
 class Pomodoro extends Component {
   state = {
     value: '500',
@@ -101,6 +104,15 @@ class Pomodoro extends Component {
     }
   };
   
+  handleKeyDown = (event) => {
+    const keyCode = event.which;
+    if (keyCode === LEFT) {
+      console.log('left', this.input.selectionStart);
+    } else if (keyCode === RIGHT) {
+      console.log('right', this.input.selectionStart);
+    }
+  };
+
   render() {
     const { running, value } = this.state;
     const val = this.getVal(value.split('').reverse());
@@ -113,24 +125,27 @@ class Pomodoro extends Component {
           <label>
             <span className="sr-only">How long would you like?</span>
             <input
+              ref={(ref) => this.input = ref}
               value={this.state.value}
               onChange={this.handleInputChange}
               onFocus={this.handlePause}
               onBlur={this.handleInvalidTime}
+              onKeyDown={this.handleKeyDown}
               type="text"
               className="pomodoro__input sr-only"
               maxLength="6"
+              dir="rtl"
             />
             <span className="pomodoro__text-area">
-            <span className={val(5) ? valid : null}>{val(5)}</span>
-            <span className={val(4) ? valid : null}>{val(4)}</span>
-            <span className="pomodoro__unit">h</span>
-            <span className={val(3) ? valid : null}>{val(3)}</span>
-            <span className={val(2) ? valid : null}>{val(2)}</span>
-            <span className="pomodoro__unit">m</span>
-            <span className={val(1) ? valid : null}>{val(1)}</span>
-            <span className={val(0) ? valid : null}>{val(0)}</span>
-            <span className="pomodoro__unit">s</span>
+              <span className={val(5) ? valid : null}>{val(5)}</span>
+              <span className={val(4) ? valid : null}>{val(4)}</span>
+              <span className="pomodoro__unit">h</span>
+              <span className={val(3) ? valid : null}>{val(3)}</span>
+              <span className={val(2) ? valid : null}>{val(2)}</span>
+              <span className="pomodoro__unit">m</span>
+              <span className={val(1) ? valid : null}>{val(1)}</span>
+              <span className={`${val(0) ? valid : null} pomodoro__cursor-focus`}>{val(0)}</span>
+              <span className="pomodoro__unit">s</span>
             </span>
           </label>
         </div>
