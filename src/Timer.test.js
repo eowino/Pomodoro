@@ -235,3 +235,32 @@ describe('Sanitise time', () => {
     expect(sanitiseTime('915469')).toEqual('915459');
   });
 });
+
+describe('Map input to time', () => {
+  expect(mapInputToTime('1')).toEqual({hrs: 0, mins: 0, sec: 1});
+  expect(mapInputToTime('59')).toEqual({hrs: 0, mins: 0, sec: 59});
+  expect(mapInputToTime('159')).toEqual({hrs: 0, mins: 1, sec: 59});
+  expect(mapInputToTime('1959')).toEqual({hrs: 0, mins: 19, sec: 59});
+  expect(mapInputToTime('71959')).toEqual({hrs: 7, mins: 19, sec: 59});
+  expect(mapInputToTime('751959')).toEqual({hrs: 75, mins: 19, sec: 59});
+});
+
+describe('Map time to input', () => {
+  expect(mapTimeToInput({hours: 0, minutes: 0, seconds: 1})).toEqual('1');
+  expect(mapTimeToInput({hours: 0, minutes: 0, seconds: 59})).toEqual('59');
+  expect(mapTimeToInput({hours: 0, minutes: 1, seconds: 59})).toEqual('159');
+  expect(mapTimeToInput({hours: 0, minutes: 19, seconds: 59})).toEqual('1959');
+  expect(mapTimeToInput({hours: 7, minutes: 19, seconds: 59})).toEqual('71959');
+  expect(mapTimeToInput({hours: 75, minutes: 19, seconds: 59})).toEqual('751959');
+});
+
+describe('Next time', () => {
+  expect(nextTime('1')).toEqual('0');
+  expect(nextTime('2')).toEqual('1');
+  expect(nextTime('59')).toEqual('58');
+  expect(nextTime('159')).toEqual('158');
+  expect(nextTime('1959')).toEqual('1958');
+  expect(nextTime('71959')).toEqual('71958');
+  expect(nextTime('751959')).toEqual('751958');
+  expect(nextTime('2000')).toEqual('1959');
+});
