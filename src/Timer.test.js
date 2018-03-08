@@ -128,6 +128,21 @@ describe('Hours lapse test', () => {
       });
     });
   });
+  describe('given 1:00:00', () => {
+    it('should evaluate to 00:59:59', () => {
+      expect(
+        hourTicker({
+          hrs: 1,
+          mins: 0,
+          sec: 0
+        })
+      ).toEqual({
+        hours: 0,
+        minutes: 59,
+        seconds: 59
+      });
+    });
+  });
   describe('given 20:01:00', () => {
     it('should evaluate to 20:00:59', () => {
       expect(
@@ -210,6 +225,21 @@ describe('Hours lapse test', () => {
       ).toEqual({ hours: 0, minutes: 0, seconds: 0 });
     });
   });
+  describe('given 99:00:01', () => {
+    it('should evaluate to 98:59:59', () => {
+      expect(
+        hourTicker({
+          hrs: 99,
+          mins: 0,
+          sec: 1
+        })
+      ).toEqual({
+        hours: 98,
+        minutes: 59,
+        seconds: 59
+      });
+    });
+  });
 });
 
 describe('Sanitise time', () => {
@@ -218,6 +248,9 @@ describe('Sanitise time', () => {
   });
   test('199 should return 159 ', () => {
     expect(sanitiseTime('199')).toEqual('159');
+  });
+  test('6000 should return 10000 ', () => {
+    expect(sanitiseTime('6000')).toEqual('10000');
   });
   test('9499 should return 5459 ', () => {
     expect(sanitiseTime('9499')).toEqual('5459');
