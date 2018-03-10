@@ -234,10 +234,26 @@ describe('Hours lapse test', () => {
           sec: 1
         })
       ).toEqual({
-        hours: 98,
-        minutes: 59,
-        seconds: 59
+        hours: 99,
+        minutes: 0,
+        seconds: 0
       });
+    });
+  });
+});
+
+describe('given 99:00:00', () => {
+  it('should evaluate to 98:59:59', () => {
+    expect(
+      hourTicker({
+        hrs: 99,
+        mins: 0,
+        sec: 0
+      })
+    ).toEqual({
+      hours: 98,
+      minutes: 59,
+      seconds: 59
     });
   });
 });
@@ -248,9 +264,6 @@ describe('Sanitise time', () => {
   });
   test('199 should return 159 ', () => {
     expect(sanitiseTime('199')).toEqual('159');
-  });
-  test('6000 should return 10000 ', () => {
-    expect(sanitiseTime('6000')).toEqual('10000');
   });
   test('9499 should return 5459 ', () => {
     expect(sanitiseTime('9499')).toEqual('5459');
@@ -297,3 +310,4 @@ describe('Next time', () => {
   expect(nextTime('751959')).toEqual('751958');
   expect(nextTime('2000')).toEqual('1959');
 });
+
