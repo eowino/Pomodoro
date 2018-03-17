@@ -147,7 +147,7 @@ class Pomodoro extends Component {
           </button>
         </div>
         <audio ref={ref => this.audio = ref} loop="loop">
-          <source src="http://freesound.org/data/previews/263/263133_2064400-lq.mp3" type="audio/mpeg" />
+          <source src="https://freesound.org/data/previews/263/263133_2064400-lq.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
         </audio>
       </div>
