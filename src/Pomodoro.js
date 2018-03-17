@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 import nextTime, { sanitiseTime } from './Timer'
 
-const LEFT = 37;
-const RIGHT = 39;
-
 class Pomodoro extends Component {
   state = {
     value: '500',
@@ -66,6 +63,7 @@ class Pomodoro extends Component {
           }), () => {
             if (this.state.value === '0') {
               this.handleReset();
+              this.audio.play();
             }
           });
         }, 1000);
@@ -77,6 +75,7 @@ class Pomodoro extends Component {
   
   handleReset = () => {
     this.clearInterval();
+    this.audio.pause();
     this.setState(() => ({
       value: '',
       running: false,
@@ -104,15 +103,6 @@ class Pomodoro extends Component {
     }
   };
   
-  handleKeyDown = (event) => {
-    const keyCode = event.which;
-    if (keyCode === LEFT) {
-      console.log('left', this.input.selectionStart);
-    } else if (keyCode === RIGHT) {
-      console.log('right', this.input.selectionStart);
-    }
-  };
-
   render() {
     const { running, value } = this.state;
     const val = this.getVal(value.split('').reverse());
@@ -130,7 +120,6 @@ class Pomodoro extends Component {
               onChange={this.handleInputChange}
               onFocus={this.handlePause}
               onBlur={this.handleInvalidTime}
-              onKeyDown={this.handleKeyDown}
               type="text"
               className="pomodoro__input sr-only"
               maxLength="6"
@@ -144,7 +133,7 @@ class Pomodoro extends Component {
               <span className={val(2) ? valid : null}>{val(2)}</span>
               <span className="pomodoro__unit">m</span>
               <span className={val(1) ? valid : null}>{val(1)}</span>
-              <span className={`${val(0) ? valid : null} pomodoro__cursor-focus`}>{val(0)}</span>
+              <span className={val(0) ? valid : null}>{val(0)}</span>
               <span className="pomodoro__unit">s</span>
             </span>
           </label>
@@ -157,6 +146,10 @@ class Pomodoro extends Component {
             Reset
           </button>
         </div>
+        <audio ref={ref => this.audio = ref} loop="loop">
+          <source src="http://freesound.org/data/previews/263/263133_2064400-lq.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio>
       </div>
     );
   }
