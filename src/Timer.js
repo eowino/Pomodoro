@@ -118,7 +118,7 @@ export const mapTimeToInput = ({ hours, minutes, seconds } = {}) => {
     let min = minutes || 0;
     
     // leading zero's
-    if (seconds < 10 && minutes > 0 || seconds < 10 && hours > 0) {
+    if ((seconds < 10 && minutes > 0) || (seconds < 10 && hours > 0)) {
       sec = `0${seconds}`;
     }
     if (minutes < 10 && hours > 0) {
