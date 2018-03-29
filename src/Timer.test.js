@@ -45,6 +45,11 @@ describe('Minutes lapse test', () => {
       expect(minutesTicker(1, 1)).toEqual({ minutes: 1, seconds: 0 });
     });
   });
+  describe('given 5:01', () => {
+    it('should evaluate to 5:00', () => {
+      expect(minutesTicker(5, 1)).toEqual({ minutes: 5, seconds: 0 });
+    });
+  });
   describe('given 1:00', () => {
     it('should evaluate to 0:59', () => {
       expect(minutesTicker(1, 0)).toEqual({ minutes: 0, seconds: 59 });
@@ -240,20 +245,34 @@ describe('Hours lapse test', () => {
       });
     });
   });
-});
-
-describe('given 99:00:00', () => {
-  it('should evaluate to 98:59:59', () => {
-    expect(
-      hourTicker({
-        hrs: 99,
-        mins: 0,
-        sec: 0
-      })
-    ).toEqual({
-      hours: 98,
-      minutes: 59,
-      seconds: 59
+  describe('given 99:00:00', () => {
+    it('should evaluate to 98:59:59', () => {
+      expect(
+        hourTicker({
+          hrs: 99,
+          mins: 0,
+          sec: 0
+        })
+      ).toEqual({
+        hours: 98,
+        minutes: 59,
+        seconds: 59
+      });
+    });
+  });
+  describe('given 5:01', () => {
+    it('should evaluate to 5:00', () => {
+      expect(
+        hourTicker({
+          hrs: 0,
+          mins: 5,
+          sec: 1
+        })
+      ).toEqual({
+        hours: 0,
+        minutes: 5,
+        seconds: 0
+      });
     });
   });
 });
@@ -289,6 +308,11 @@ describe('Map input to time', () => {
   expect(mapInputToTime('1959')).toEqual({hrs: 0, mins: 19, sec: 59});
   expect(mapInputToTime('71959')).toEqual({hrs: 7, mins: 19, sec: 59});
   expect(mapInputToTime('751959')).toEqual({hrs: 75, mins: 19, sec: 59});
+  expect(mapInputToTime('501')).toEqual({hrs: 0, mins: 5, sec: 1});
+  expect(mapInputToTime('500')).toEqual({hrs: 0, mins: 5, sec: 0});
+  expect(mapInputToTime('20001')).toEqual({hrs: 2, mins: 0, sec: 1});
+  expect(mapInputToTime('50201')).toEqual({hrs: 5, mins: 2, sec: 1});
+  expect(mapInputToTime('50101')).toEqual({hrs: 5, mins: 1, sec: 1});
 });
 
 describe('Map time to input', () => {
@@ -298,6 +322,10 @@ describe('Map time to input', () => {
   expect(mapTimeToInput({hours: 0, minutes: 19, seconds: 59})).toEqual('1959');
   expect(mapTimeToInput({hours: 7, minutes: 19, seconds: 59})).toEqual('71959');
   expect(mapTimeToInput({hours: 75, minutes: 19, seconds: 59})).toEqual('751959');
+  expect(mapTimeToInput({hours: 0, minutes: 5, seconds: 1})).toEqual('501');
+  expect(mapTimeToInput({hours: 2, minutes: 0, seconds: 1})).toEqual('20001');
+  expect(mapTimeToInput({hours: 5, minutes: 2, seconds: 1})).toEqual('50201');
+  expect(mapTimeToInput({hours: 5, minutes: 1, seconds: 1})).toEqual('50101');
 });
 
 describe('Next time', () => {
@@ -309,5 +337,7 @@ describe('Next time', () => {
   expect(nextTime('71959')).toEqual('71958');
   expect(nextTime('751959')).toEqual('751958');
   expect(nextTime('2000')).toEqual('1959');
+  expect(nextTime('501')).toEqual('500');
+  expect(nextTime('701')).toEqual('700');
 });
 

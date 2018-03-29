@@ -1,4 +1,4 @@
-export const secondsTicker = (seconds) => {
+export const secondsTicker = seconds => {
   switch (seconds) {
     case 0:
       seconds = 59;
@@ -70,7 +70,7 @@ export const mapInputToTime = (input = '') => {
   let hr = 0, min = 0, sec = 0;
   const i = input;
 
-  switch(i.length) {
+  switch (i.length) {
     case 1:
       sec = i;
       break;
@@ -91,30 +91,42 @@ export const mapInputToTime = (input = '') => {
       sec = `${i[3]}${i[4]}`;
       break;
     case 6:
-      hr =  `${i[0]}${i[1]}`;
+      hr = `${i[0]}${i[1]}`;
       min = `${i[2]}${i[3]}`;
       sec = `${i[4]}${i[5]}`;
       break;
     default:
-      // default not required 
+    // default not required
   }
 
   return {
     hrs: +hr,
     mins: +min,
     sec: +sec
-  }
+  };
 };
 
-export const mapTimeToInput = ({hours, minutes, seconds} = {}) => {
-  let result = 0;
+export const mapTimeToInput = ({ hours, minutes, seconds } = {}) => {
+  let result;
 
-  if (hours === 0 && minutes === 0 && seconds === 0 ) {
+  if (hours === 0 && minutes === 0 && seconds === 0) {
     result = '0';
+  } else if (hours === 0 && minutes === 0 && seconds > 0) {
+    result = '' + seconds;
   } else {
-    result = `${hours || ''}${minutes || ''}${seconds || ''}`;
+    let sec = seconds || 0;
+    let min = minutes || 0;
+    
+    // leading zero's
+    if (seconds < 10 && minutes > 0 || seconds < 10 && hours > 0) {
+      sec = `0${seconds}`;
+    }
+    if (minutes < 10 && hours > 0) {
+      min = `0${minutes}`;
+    }
+    result = `${hours || ''}${min}${sec}`;
   }
-  
+
   return result;
 };
 
@@ -127,8 +139,8 @@ const sanitiseValue = (arr, index) => {
 
 export const sanitiseTime = (str = '') => {
   let value = str.split('');
- 
-  switch(value.length) {
+
+  switch (value.length) {
     case 2:
       value = sanitiseValue(value, 0);
       break;
@@ -148,7 +160,7 @@ export const sanitiseTime = (str = '') => {
       value = sanitiseValue(value, 4);
       break;
     default:
-      // default not required 
+    // default not required
   }
 
   return value.join('');
